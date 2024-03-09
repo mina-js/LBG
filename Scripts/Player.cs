@@ -8,24 +8,18 @@ public class Player : KinematicBody
     public int Speed = 14;
     private Vector3 _targetVelocity = Vector3.Zero;
 
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
-
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
-    {
-
-    }
-
     public override void _PhysicsProcess(float delta)
     {
         Vector3 direction = Vector3.Zero;
 
         if (Input.IsActionPressed("move_forward"))
         {
-            Debug.WriteLine("Move Forward");
             direction.z -= 1f;
+        }
+
+        if (Input.IsActionPressed("move_backward"))
+        {
+            direction.z += 1f;
         }
 
         if (direction != Vector3.Zero)
