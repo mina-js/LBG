@@ -2,11 +2,20 @@ using Godot;
 using System;
 using System.Diagnostics;
 
-public class Player : KinematicBody
+public class Player : Spatial
 {
+    [Export]
+    public NodePath headNode;
+
     [Export]
     public int Speed = 14;
     private Vector3 _targetVelocity = Vector3.Zero;
+    private KinematicBody headKB;
+
+    public override void _Ready()
+    {
+        headKB = GetNodeOrNull<KinematicBody>(headNode);
+    }
 
     public override void _PhysicsProcess(float delta)
     {
@@ -29,6 +38,6 @@ public class Player : KinematicBody
         }
 
         _targetVelocity.z = direction.z * Speed;
-        MoveAndSlide(_targetVelocity);
+        headKB.MoveAndSlide(_targetVelocity);
     }
 }

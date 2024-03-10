@@ -1,21 +1,46 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scripts/Player.cs" type="Script" id=1]
-
-[sub_resource type="CapsuleMesh" id=1]
-mid_height = 0.001
 
 [sub_resource type="CapsuleShape" id=2]
 height = 0.001
 
-[node name="Player" type="KinematicBody"]
+[sub_resource type="CapsuleMesh" id=1]
+mid_height = 0.001
+
+[sub_resource type="CapsuleShape" id=3]
+height = 0.001
+
+[node name="Player" type="Spatial"]
 script = ExtResource( 1 )
+headNode = NodePath("Head")
+Speed = 5
 
-[node name="Pivot" type="Spatial" parent="."]
+[node name="Head" type="KinematicBody" parent="."]
 
-[node name="MeshInstance" type="MeshInstance" parent="Pivot"]
+[node name="CollisionShape" type="CollisionShape" parent="Head"]
+shape = SubResource( 2 )
+
+[node name="Head" type="Spatial" parent="Head"]
+
+[node name="MeshInstance" type="MeshInstance" parent="Head/Head"]
 mesh = SubResource( 1 )
 skeleton = NodePath("")
 
-[node name="CollisionShape" type="CollisionShape" parent="."]
-shape = SubResource( 2 )
+[node name="HingeJoint" type="HingeJoint" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.20418, 0, 0 )
+nodes/node_a = NodePath("../Head")
+nodes/node_b = NodePath("../Leg")
+
+[node name="Leg" type="RigidBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.44153, 0, 0 )
+mass = 20.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Leg"]
+shape = SubResource( 3 )
+
+[node name="Spatial" type="Spatial" parent="Leg"]
+
+[node name="MeshInstance" type="MeshInstance" parent="Leg/Spatial"]
+mesh = SubResource( 1 )
+skeleton = NodePath("")

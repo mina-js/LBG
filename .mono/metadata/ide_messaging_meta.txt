@@ -1,2 +1,2 @@
-﻿65515
+﻿49906
 /Applications/Godot_mono.app/Contents/MacOS/Godot
