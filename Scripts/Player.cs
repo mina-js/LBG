@@ -34,7 +34,7 @@ public class Player : Spatial
         if (direction != Vector3.Zero)
         {
             direction = direction.Normalized();
-            LookAt(direction, Vector3.Up);
+            headKB.LookAt(direction, Vector3.Forward);
         }
 
         _targetVelocity.z = direction.z * Speed;

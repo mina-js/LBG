@@ -34,7 +34,6 @@ nodes/node_b = NodePath("../Leg")
 
 [node name="Leg" type="RigidBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.44153, 0, 0 )
-mass = 20.0
 
 [node name="CollisionShape" type="CollisionShape" parent="Leg"]
 shape = SubResource( 3 )
