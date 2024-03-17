@@ -1,15 +1,12 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scripts/Player.cs" type="Script" id=1]
+[ext_resource path="res://Scenes/Leg.tscn" type="PackedScene" id=2]
 
 [sub_resource type="CapsuleShape" id=2]
-height = 0.001
 
 [sub_resource type="CapsuleMesh" id=1]
 mid_height = 0.001
-
-[sub_resource type="CapsuleShape" id=3]
-height = 0.001
 
 [node name="Player" type="Spatial"]
 script = ExtResource( 1 )
@@ -17,29 +14,39 @@ headNode = NodePath("Head")
 Speed = 5
 
 [node name="Head" type="KinematicBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.984963, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Head"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
 shape = SubResource( 2 )
 
 [node name="Head" type="Spatial" parent="Head"]
 
 [node name="MeshInstance" type="MeshInstance" parent="Head/Head"]
+transform = Transform( 1, 0, 0, 0, 1.5, 0, 0, 0, 1, 0, 0, 0 )
 mesh = SubResource( 1 )
 skeleton = NodePath("")
 
-[node name="HingeJoint" type="HingeJoint" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.20418, 0, 0 )
-nodes/node_a = NodePath("../Head")
-nodes/node_b = NodePath("../Leg")
+[node name="Leg" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 
-[node name="Leg" type="RigidBody" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.44153, 0, 0 )
+[node name="Leg2" parent="." instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Leg"]
-shape = SubResource( 3 )
+[node name="Leg5" parent="." instance=ExtResource( 2 )]
+transform = Transform( -0.675256, 0, 0.737584, 0, 1, 0, -0.737584, 0, -0.675256, 0, 0, 0 )
 
-[node name="Spatial" type="Spatial" parent="Leg"]
+[node name="Leg3" parent="." instance=ExtResource( 2 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Leg/Spatial"]
-mesh = SubResource( 1 )
-skeleton = NodePath("")
+[node name="Leg4" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 0, 0, 0 )
+
+[node name="Leg6" parent="." instance=ExtResource( 2 )]
+transform = Transform( -0.583669, 0, -0.811992, 0, 1, 0, 0.811992, 0, -0.583669, 0, 0, 0 )
+
+[node name="Leg8" parent="." instance=ExtResource( 2 )]
+transform = Transform( 0.593194, 0, 0.80506, 0, 1, 0, -0.80506, 0, 0.593194, 0, 0, 0 )
+
+[node name="Leg7" parent="." instance=ExtResource( 2 )]
+transform = Transform( 0.660605, 0, -0.750734, 0, 1, 0, 0.750734, 0, 0.660605, 0, 0, 0 )

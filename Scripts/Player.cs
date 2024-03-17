@@ -8,7 +8,11 @@ public class Player : Spatial
     public NodePath headNode;
 
     [Export]
-    public int Speed = 14;
+    public int rotationSpeed = 5;
+
+    [Export]
+    public int movementSpeed = 100;
+
     private Vector3 _targetVelocity = Vector3.Zero;
     private KinematicBody headKB;
 
@@ -19,25 +23,32 @@ public class Player : Spatial
 
     public override void _PhysicsProcess(float delta)
     {
-        Vector3 direction = Vector3.Zero;
+        Vector3 direction = headKB.Transform.basis.z;
 
         if (Input.IsActionPressed("move_forward"))
         {
-            direction.z -= 1f;
+            direction *= movementSpeed;
         }
 
         if (Input.IsActionPressed("move_backward"))
         {
-            direction.z += 1f;
+            direction *= -1 * movementSpeed;
         }
 
-        if (direction != Vector3.Zero)
+        float spin = 0;
+
+        if (Input.IsActionPressed("rotate_clockwise"))
         {
-            direction = direction.Normalized();
-            headKB.LookAt(direction, Vector3.Forward);
+            spin += 1f;
+        }
+        else if (Input.IsActionPressed("rotate_counter_clockwise"))
+        {
+            spin -= 1f;
         }
 
-        _targetVelocity.z = direction.z * Speed;
+        headKB.Rotate(Vector3.Up, spin * rotationSpeed * delta);
+        _targetVelocity = direction * delta;
+
         headKB.MoveAndSlide(_targetVelocity);
     }
 }
