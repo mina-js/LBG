@@ -1,4 +1,6 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Scripts/Leg.cs" type="Script" id=1]
 
 [sub_resource type="CapsuleShape" id=3]
 radius = 0.2
@@ -7,10 +9,19 @@ height = 1.5
 [sub_resource type="CapsuleMesh" id=1]
 mid_height = 0.001
 
+[sub_resource type="SpatialMaterial" id=4]
+albedo_color = Color( 1, 0.529412, 0.945098, 1 )
+
+[sub_resource type="SpatialMaterial" id=5]
+albedo_color = Color( 0.733333, 1, 0.168627, 1 )
+
 [node name="Leg" type="HingeJoint"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.03445, 0.277821, 0 )
 nodes/node_a = NodePath("../Head")
 nodes/node_b = NodePath("RigidBody")
+script = ExtResource( 1 )
+handPath = NodePath("RigidBody2")
+liftForce = 4.0
 
 [node name="RigidBody" type="RigidBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.944883, -0.037397, 0 )
@@ -26,6 +37,7 @@ shape = SubResource( 3 )
 transform = Transform( 1, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0 )
 mesh = SubResource( 1 )
 skeleton = NodePath("")
+material/0 = SubResource( 4 )
 
 [node name="HingeJoint" type="HingeJoint" parent="."]
 transform = Transform( 0.389587, 0, 0, 0, 0.642079, 0, 0, 0, 0.672962, 1.94898, -0.0215645, -0.0160957 )
@@ -47,3 +59,4 @@ shape = SubResource( 3 )
 transform = Transform( 1, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0 )
 mesh = SubResource( 1 )
 skeleton = NodePath("")
+material/0 = SubResource( 5 )

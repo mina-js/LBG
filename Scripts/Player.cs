@@ -39,11 +39,11 @@ public class Player : Spatial
 
         if (Input.IsActionPressed("rotate_clockwise"))
         {
-            spin += 1f;
+            spin -= 1f;
         }
         else if (Input.IsActionPressed("rotate_counter_clockwise"))
         {
-            spin -= 1f;
+            spin += 1f;
         }
 
         headKB.Rotate(Vector3.Up, spin * rotationSpeed * delta);
