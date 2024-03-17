@@ -26,8 +26,4 @@ light_energy = 0.2
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.636921, 0 )
-movementSpeed = 200
-
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( -1, -6.18173e-08, 6.18173e-08, 0, 0.707107, 0.707107, -8.74228e-08, 0.707107, -0.707107, 0, 8.28875, -16.276 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.419253, 0 )

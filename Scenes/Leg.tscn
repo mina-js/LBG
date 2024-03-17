@@ -3,8 +3,8 @@
 [ext_resource path="res://Scripts/Leg.cs" type="Script" id=1]
 
 [sub_resource type="CapsuleShape" id=3]
-radius = 0.2
-height = 1.5
+radius = 0.3
+height = 0.001
 
 [sub_resource type="CapsuleMesh" id=1]
 mid_height = 0.001
@@ -40,12 +40,12 @@ skeleton = NodePath("")
 material/0 = SubResource( 4 )
 
 [node name="HingeJoint" type="HingeJoint" parent="."]
-transform = Transform( 0.389587, 0, 0, 0, 0.642079, 0, 0, 0, 0.672962, 1.94898, -0.0215645, -0.0160957 )
+transform = Transform( 0.389587, 0, 0, 0, 0.642079, 0, 0, 0, 0.672962, 1.93261, -0.0215645, -0.0160957 )
 nodes/node_a = NodePath("../RigidBody")
 nodes/node_b = NodePath("../RigidBody2")
 
 [node name="RigidBody2" type="RigidBody" parent="."]
-transform = Transform( 0.389587, 0, 0, 0, 0.642079, 0, 0, 0, 0.672962, 2.31453, -0.050332, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.17659, 0, 0 )
 collision_layer = 2
 mass = 0.0897959
 
@@ -54,6 +54,7 @@ transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0
 shape = SubResource( 3 )
 
 [node name="Spatial" type="Spatial" parent="RigidBody2"]
+transform = Transform( 0.198242, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 
 [node name="MeshInstance" type="MeshInstance" parent="RigidBody2/Spatial"]
 transform = Transform( 1, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0 )
