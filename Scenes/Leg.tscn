@@ -1,6 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/Leg.cs" type="Script" id=1]
+
+[sub_resource type="PhysicsMaterial" id=6]
 
 [sub_resource type="CapsuleShape" id=3]
 radius = 0.3
@@ -12,28 +14,34 @@ mid_height = 0.001
 [sub_resource type="SpatialMaterial" id=4]
 albedo_color = Color( 1, 0.529412, 0.945098, 1 )
 
+[sub_resource type="PhysicsMaterial" id=7]
+
 [sub_resource type="SpatialMaterial" id=5]
 albedo_color = Color( 0.733333, 1, 0.168627, 1 )
 
 [node name="Leg" type="HingeJoint"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.03445, 0.277821, 0 )
-nodes/node_a = NodePath("../Head")
 nodes/node_b = NodePath("RigidBody")
 script = ExtResource( 1 )
 handPath = NodePath("RigidBody2")
 liftForce = 4.0
+legShapePath = NodePath("RigidBody/CollisionShape")
 
 [node name="RigidBody" type="RigidBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.944883, -0.037397, 0 )
 collision_layer = 2
+mass = 5.0
+physics_material_override = SubResource( 6 )
+axis_lock_linear_y = true
 
 [node name="CollisionShape" type="CollisionShape" parent="RigidBody"]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0 )
+transform = Transform( 3, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 shape = SubResource( 3 )
 
-[node name="Spatial" type="Spatial" parent="RigidBody"]
+[node name="Spatial" type="Spatial" parent="RigidBody/CollisionShape"]
+transform = Transform( 0.333333, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 
-[node name="MeshInstance" type="MeshInstance" parent="RigidBody/Spatial"]
+[node name="MeshInstance" type="MeshInstance" parent="RigidBody/CollisionShape/Spatial"]
 transform = Transform( 1, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0 )
 mesh = SubResource( 1 )
 skeleton = NodePath("")
@@ -48,6 +56,7 @@ nodes/node_b = NodePath("../RigidBody2")
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.17659, 0, 0 )
 collision_layer = 2
 mass = 0.0897959
+physics_material_override = SubResource( 7 )
 
 [node name="CollisionShape" type="CollisionShape" parent="RigidBody2"]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0 )

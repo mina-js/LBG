@@ -18,9 +18,15 @@ albedo_color = Color( 1, 0.0470588, 0.0470588, 1 )
 [node name="Player" type="Spatial"]
 script = ExtResource( 1 )
 headNode = NodePath("Head")
+legPaths = [ NodePath("FrontLeg"), NodePath("FrontLeftLeg"), NodePath("FrontRightLeg"), NodePath("Leg4"), NodePath("Leg5"), NodePath("Leg6"), NodePath("Leg7"), NodePath("Leg8") ]
 
-[node name="Head" type="KinematicBody" parent="."]
+[node name="Head" type="RigidBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.984963, 0 )
+mass = 10.0
+contacts_reported = 5
+contact_monitor = true
+axis_lock_angular_x = true
+axis_lock_angular_z = true
 
 [node name="CollisionShape" type="CollisionShape" parent="Head"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
@@ -39,29 +45,34 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0.3 )
 mesh = SubResource( 4 )
 material/0 = SubResource( 5 )
 
-[node name="Camera" type="Camera" parent="Head"]
-transform = Transform( -1, -6.18172e-08, 6.18172e-08, 0, 0.707107, 0.707107, -8.74228e-08, 0.707107, -0.707107, 0, 6, -8 )
+[node name="FrontLeg" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 0, 0, 0 )
+nodes/node_a = NodePath("../Head")
 
-[node name="Leg" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+[node name="FrontLeftLeg" parent="." instance=ExtResource( 2 )]
+transform = Transform( 0.660605, 0, -0.750734, 0, 1, 0, 0.750734, 0, 0.660605, 0, 0, 0 )
+nodes/node_a = NodePath("../Head")
 
-[node name="Leg2" parent="." instance=ExtResource( 2 )]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0 )
-
-[node name="Leg5" parent="." instance=ExtResource( 2 )]
-transform = Transform( -0.675256, 0, 0.737584, 0, 1, 0, -0.737584, 0, -0.675256, 0, 0, 0 )
-
-[node name="Leg3" parent="." instance=ExtResource( 2 )]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
+[node name="FrontRightLeg" parent="." instance=ExtResource( 2 )]
+transform = Transform( -0.583669, 0, -0.811992, 0, 1, 0, 0.811992, 0, -0.583669, 0, 0, 0 )
+nodes/node_a = NodePath("../Head")
 
 [node name="Leg4" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 0, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+nodes/node_a = NodePath("../Head")
+
+[node name="Leg5" parent="." instance=ExtResource( 2 )]
+transform = Transform( 0.593194, 0, 0.80506, 0, 1, 0, -0.80506, 0, 0.593194, 0, 0, 0 )
+nodes/node_a = NodePath("../Head")
 
 [node name="Leg6" parent="." instance=ExtResource( 2 )]
-transform = Transform( -0.583669, 0, -0.811992, 0, 1, 0, 0.811992, 0, -0.583669, 0, 0, 0 )
-
-[node name="Leg8" parent="." instance=ExtResource( 2 )]
-transform = Transform( 0.593194, 0, 0.80506, 0, 1, 0, -0.80506, 0, 0.593194, 0, 0, 0 )
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0 )
+nodes/node_a = NodePath("../Head")
 
 [node name="Leg7" parent="." instance=ExtResource( 2 )]
-transform = Transform( 0.660605, 0, -0.750734, 0, 1, 0, 0.750734, 0, 0.660605, 0, 0, 0 )
+transform = Transform( -0.675256, 0, 0.737584, 0, 1, 0, -0.737584, 0, -0.675256, 0, 0, 0 )
+nodes/node_a = NodePath("../Head")
+
+[node name="Leg8" parent="." instance=ExtResource( 2 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
+nodes/node_a = NodePath("../Head")
