@@ -1,6 +1,6 @@
 ﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LFG", "LFG.csproj", "{C33A563F-D0D0-4140-93C9-D624E1921A47}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LBG", "LBG.csproj", "{C33A563F-D0D0-4140-93C9-D624E1921A47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

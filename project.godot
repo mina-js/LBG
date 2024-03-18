@@ -10,7 +10,7 @@ config_version=4
 
 [application]
 
-config/name="LFG"
+config/name="LBG"
 run/main_scene="res://Scenes/Main.tscn"
 config/icon="res://icon.png"
 
@@ -48,7 +48,7 @@ lift={
 
 [mono]
 
-project/assembly_name="LFG"
+project/assembly_name="LBG"
 
 [physics]
 
