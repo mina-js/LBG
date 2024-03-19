@@ -1,8 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/Leg.cs" type="Script" id=1]
 
-[sub_resource type="PhysicsMaterial" id=6]
+[sub_resource type="PhysicsMaterial" id=7]
 
 [sub_resource type="CapsuleShape" id=3]
 radius = 0.3
@@ -11,61 +11,103 @@ height = 0.001
 [sub_resource type="CapsuleMesh" id=1]
 mid_height = 0.001
 
-[sub_resource type="SpatialMaterial" id=4]
-albedo_color = Color( 1, 0.529412, 0.945098, 1 )
-
-[sub_resource type="PhysicsMaterial" id=7]
-
 [sub_resource type="SpatialMaterial" id=5]
 albedo_color = Color( 0.733333, 1, 0.168627, 1 )
 
-[node name="Leg" type="HingeJoint"]
+[node name="Leg" type="Spatial"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.03445, 0.277821, 0 )
-nodes/node_b = NodePath("RigidBody")
 script = ExtResource( 1 )
-handPath = NodePath("RigidBody2")
-liftForce = 4.0
-legShapePath = NodePath("RigidBody/CollisionShape")
+hingePaths = [ NodePath("HingeJoint"), NodePath("HingeJoint2"), NodePath("HingeJoint3") ]
 
-[node name="RigidBody" type="RigidBody" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.944883, -0.037397, 0 )
-collision_layer = 2
-mass = 5.0
-physics_material_override = SubResource( 6 )
-axis_lock_linear_y = true
-
-[node name="CollisionShape" type="CollisionShape" parent="RigidBody"]
-transform = Transform( 3, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-shape = SubResource( 3 )
-
-[node name="Spatial" type="Spatial" parent="RigidBody/CollisionShape"]
-transform = Transform( 0.333333, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-
-[node name="MeshInstance" type="MeshInstance" parent="RigidBody/CollisionShape/Spatial"]
-transform = Transform( 1, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0 )
-mesh = SubResource( 1 )
-skeleton = NodePath("")
-material/0 = SubResource( 4 )
-
-[node name="HingeJoint" type="HingeJoint" parent="."]
-transform = Transform( 0.389587, 0, 0, 0, 0.642079, 0, 0, 0, 0.672962, 1.93261, -0.0215645, -0.0160957 )
-nodes/node_a = NodePath("../RigidBody")
-nodes/node_b = NodePath("../RigidBody2")
-
-[node name="RigidBody2" type="RigidBody" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.17659, 0, 0 )
+[node name="BaseChunk" type="RigidBody" parent="."]
 collision_layer = 2
 mass = 0.0897959
 physics_material_override = SubResource( 7 )
 
-[node name="CollisionShape" type="CollisionShape" parent="RigidBody2"]
+[node name="CollisionShape" type="CollisionShape" parent="BaseChunk"]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0 )
 shape = SubResource( 3 )
 
-[node name="Spatial" type="Spatial" parent="RigidBody2"]
+[node name="Spatial" type="Spatial" parent="BaseChunk"]
 transform = Transform( 0.198242, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 
-[node name="MeshInstance" type="MeshInstance" parent="RigidBody2/Spatial"]
+[node name="MeshInstance" type="MeshInstance" parent="BaseChunk/Spatial"]
+transform = Transform( 1, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0 )
+mesh = SubResource( 1 )
+skeleton = NodePath("")
+material/0 = SubResource( 5 )
+
+[node name="HingeJoint" type="HingeJoint" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0 )
+nodes/node_a = NodePath("../BaseChunk")
+nodes/node_b = NodePath("LegChunk2")
+solver/priority = 2
+params/bias = 0.99
+
+[node name="LegChunk2" type="RigidBody" parent="HingeJoint"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0 )
+collision_layer = 2
+mass = 0.0897959
+physics_material_override = SubResource( 7 )
+
+[node name="CollisionShape" type="CollisionShape" parent="HingeJoint/LegChunk2"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0 )
+shape = SubResource( 3 )
+
+[node name="Spatial" type="Spatial" parent="HingeJoint/LegChunk2"]
+transform = Transform( 0.198242, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="HingeJoint/LegChunk2/Spatial"]
+transform = Transform( 1, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0 )
+mesh = SubResource( 1 )
+skeleton = NodePath("")
+material/0 = SubResource( 5 )
+
+[node name="HingeJoint2" type="HingeJoint" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 0 )
+nodes/node_a = NodePath("../HingeJoint/LegChunk2")
+nodes/node_b = NodePath("LegChunk3")
+solver/priority = 3
+
+[node name="LegChunk3" type="RigidBody" parent="HingeJoint2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0 )
+collision_layer = 2
+mass = 0.0897959
+physics_material_override = SubResource( 7 )
+
+[node name="CollisionShape" type="CollisionShape" parent="HingeJoint2/LegChunk3"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0 )
+shape = SubResource( 3 )
+
+[node name="Spatial" type="Spatial" parent="HingeJoint2/LegChunk3"]
+transform = Transform( 0.198242, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="HingeJoint2/LegChunk3/Spatial"]
+transform = Transform( 1, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0 )
+mesh = SubResource( 1 )
+skeleton = NodePath("")
+material/0 = SubResource( 5 )
+
+[node name="HingeJoint3" type="HingeJoint" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0, 0 )
+nodes/node_a = NodePath("../HingeJoint2/LegChunk3")
+nodes/node_b = NodePath("LegChunk4")
+solver/priority = 4
+
+[node name="LegChunk4" type="RigidBody" parent="HingeJoint3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.543235, 0, 5.32907e-15 )
+collision_layer = 2
+mass = 0.0897959
+physics_material_override = SubResource( 7 )
+
+[node name="CollisionShape" type="CollisionShape" parent="HingeJoint3/LegChunk4"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0 )
+shape = SubResource( 3 )
+
+[node name="Spatial" type="Spatial" parent="HingeJoint3/LegChunk4"]
+transform = Transform( 0.198242, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="HingeJoint3/LegChunk4/Spatial"]
 transform = Transform( 1, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0 )
 mesh = SubResource( 1 )
 skeleton = NodePath("")

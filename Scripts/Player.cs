@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,19 +17,19 @@ public class Player : Spatial
     public int impulseMultiplier = 2500;
 
     private Vector3 _targetVelocity = Vector3.Zero;
-    private RigidBody headRB;
+    private KinematicBody headKB;
     private List<Leg> legs = new List<Leg>();
 
     public override void _Ready()
     {
-        headRB = GetNodeOrNull<RigidBody>(headNode);
+        headKB = GetNodeOrNull<KinematicBody>(headNode);
         foreach (var legPath in legPaths)
         {
             legs.Add(GetNodeOrNull<Leg>(legPath));
         }
     }
 
-    public override void _Process(float delta)
+    public override void _PhysicsProcess(float delta)
     {
         if (Input.IsActionJustPressed("move_forward"))
         {
@@ -50,7 +51,7 @@ public class Player : Spatial
             spin += 1f;
         }
 
-        headRB.Rotate(Vector3.Up, spin * rotationSpeed * delta);
+        headKB.Rotate(Vector3.Up, spin * rotationSpeed * delta);
     }
 
     void MakeMove(float delta, Vector2 goalVector)
@@ -58,33 +59,46 @@ public class Player : Spatial
         GD.Print("STARTING MOVE----");
         GD.Print("goalVector: " + goalVector);
 
-        var randomlyReorderedLegs = new List<Leg>(legs.GetRange(3, 5));
+        var randomlyReorderedLegs = new List<Leg>();
+        foreach (var leg in legs.GetRange(3, 5))
+        {
+            randomlyReorderedLegs.Add(leg);
+        }
         Utils.Shuffle(randomlyReorderedLegs);
+
+        SceneTreeTween allLegsTween = GetTree().CreateTween();
+        allLegsTween.SetParallel();
 
         for (var i = 0; i < randomlyReorderedLegs.Count; i++)
         {
-            randomlyReorderedLegs[i].ScaleLeg(1f + (i * 2f));
+            randomlyReorderedLegs[i].ScaleLeg(ref allLegsTween, (1 + i) * .25f);
         }
 
+        allLegsTween.Connect(
+            "finished",
+            this,
+            nameof(OnTweenAllLegsFinished),
+            new Godot.Collections.Array { goalVector, randomlyReorderedLegs });
+        allLegsTween.Play();
+    }
+
+    public void OnTweenAllLegsFinished(Vector2 goalVector, List<Leg> legs)
+    {
         //Just apply the impulse in the desired direction, simplest
-        Vector3 impulse = new Vector3(goalVector.x, 0, goalVector.y) * impulseMultiplier * delta;
+        Vector3 impulse = new Vector3(goalVector.x, 0, goalVector.y) * impulseMultiplier;
         GD.Print("SIMPLE IMPULSE: " + impulse);
-        headRB.ApplyImpulse(
-            new Vector3(0, -1, 0),
+
+        SceneTreeTween allLegsTween = GetTree().CreateTween();
+        allLegsTween.SetParallel();
+
+        for (var i = 0; i < legs.Count; i++)
+        {
+            legs[i].ResetLeg(ref allLegsTween);
+        }
+
+        headKB.MoveAndSlide(
             impulse
         );
-
-
-        // var collidingBodies = headRB.GetCollidingBodies();
-        // GD.Print("Colliding with: " + collidingBodies.Count);
-        // StaticBody floor = collidingBodies[0] as StaticBody;
-        // floor
-
-        //Apply the movement via KB
-        // headKB.MoveAndSlide(
-        //     new Vector3(goalVector.x, 0, goalVector.y) * movementSpeed * delta
-        // );
-
     }
 
     // public override void _PhysicsProcess(float delta)
